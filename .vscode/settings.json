@@ -1,0 +1,18 @@
+{
+    "java.project.sourcePaths": [
+        "src"
+    ],
+    "java.project.referencedLibraries": [
+        "d:\\code\\Project-Calyx-Point\\Project-Calyx-Point\\lib\\javafx.base.jar",
+        "d:\\code\\Project-Calyx-Point\\Project-Calyx-Point\\lib\\jdk.jsobject.jar",
+        "d:\\code\\Project-Calyx-Point\\Project-Calyx-Point\\lib\\javafx-swt.jar",
+        "d:\\code\\Project-Calyx-Point\\Project-Calyx-Point\\lib\\javafx.controls.jar",
+        "d:\\code\\Project-Calyx-Point\\Project-Calyx-Point\\lib\\javafx.media.jar",
+        "d:\\code\\Project-Calyx-Point\\Project-Calyx-Point\\lib\\javafx.graphics.jar",
+        "d:\\code\\Project-Calyx-Point\\Project-Calyx-Point\\lib\\javafx.fxml.jar",
+        "d:\\code\\Project-Calyx-Point\\Project-Calyx-Point\\lib\\jfx.incubator.richtext.jar",
+        "d:\\code\\Project-Calyx-Point\\Project-Calyx-Point\\lib\\javafx.swing.jar",
+        "d:\\code\\Project-Calyx-Point\\Project-Calyx-Point\\lib\\javafx.web.jar",
+        "d:\\code\\Project-Calyx-Point\\Project-Calyx-Point\\lib\\jfx.incubator.input.jar"
+    ]
+}
