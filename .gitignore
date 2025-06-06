@@ -1,0 +1,13 @@
+# Ignore compiled classes
+*.class
+
+# Ignore IntelliJ project files
+.idea/
+*.iml
+
+# Ignore build folders
+out/
+build/
+
+# Ignore JavaFX SDK
+lib/javafx-sdk*/
