@@ -11,4 +11,4 @@ build/
 
 # Ignore JavaFX SDK
 lib
-javafx-bin
+bin
