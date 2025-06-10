@@ -12,3 +12,4 @@ build/
 # Ignore JavaFX SDK
 lib
 bin
+out
