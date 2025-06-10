@@ -26,8 +26,26 @@ public class Matrix{
         gridCells = new Cell[rows][cols];
         init();
     }
-    private boolean freeCell(int row, int column){
-        if(!gridCells[row][column].isColony() && !gridCells[row][column].hasFood() && !gridCells[row][column].isObstacle()){
+    public boolean isObstacle(int x, int y) {
+        if(inBounds(x, y)){
+            return gridCells[y][x].isObstacle();
+        }else{return false;}
+    }
+    public boolean isFood(int x, int y) {
+        if(inBounds(x, y)){
+            return gridCells[y][x].hasFood();
+        }else{return false;}
+    }
+    public boolean isColony(int x, int y) {
+        if(inBounds(x, y)){
+            return gridCells[y][x].isColony();
+        }else{return false;}
+    }
+    public boolean inBounds(int x, int y) {
+        return x >= 0 && x < cols && y >= 0 && y < rows;
+    }
+    private boolean freeCell(int x, int y){
+        if(!this.isColony(x, y) && !this.isFood(x, y) && !this.isObstacle(x, y)){
             return true;
         }else{return false;}
     }
