@@ -11,6 +11,7 @@ import javafx.scene.shape.Rectangle;
 
 public class Matrix{
     private Cell[][] gridCells;
+    private Rectangle[][] cellViews;
     int cols, rows;
     
     public static final int CELL_SIZE = 20;
@@ -33,8 +34,12 @@ public class Matrix{
     }
     public boolean isFood(int x, int y) {
         if(inBounds(x, y)){
-            return gridCells[y][x].hasFood();
+            return gridCells[y][x].isFood();
         }else{return false;}
+    }
+    public void setFood(int x, int y, boolean food){
+        gridCells[y][x].setFood(food);
+        this.updateCell(x, y);
     }
     public boolean isColony(int x, int y) {
         if(inBounds(x, y)){
@@ -59,7 +64,20 @@ public class Matrix{
 
         //Colony
         gridCells[COLONY_Y][COLONY_X].setColony(true);
+        cellViews = new Rectangle[rows][cols];
         System.out.println("Colony placed at: (" + COLONY_Y + ", " + COLONY_Y + ")");
+    }
+    private void updateCell(int x, int y) {
+        Rectangle cell = cellViews[y][x];
+        if (cell == null) return;
+
+        if (isFood(x, y)) {
+            cell.setFill(Color.web("#51827D"));
+        } else if (isObstacle(x, y)) {
+            cell.setFill(Color.web("#A9BCD0"));
+        } else {
+            cell.setFill(Color.web("#B49A67"));
+        }
     }
     public void generateWorld(String seed, int rocks, int food){
         //Seed based world generation
@@ -130,10 +148,13 @@ public class Matrix{
                 final int col = c;
 
                 KeyFrame keyFrame = new KeyFrame(Duration.millis(delay), e -> {
+
                     Cell cellData = gridCells[row][col];
                     Rectangle cell = new Rectangle(CELL_SIZE, CELL_SIZE);
                     cell.setX(col * CELL_SIZE);
                     cell.setY(row * CELL_SIZE);
+                    cellViews[row][col] = cell;
+
 
                     // Add terrain color and colony image if needed
                     if (cellData.isColony()) {
@@ -149,7 +170,7 @@ public class Matrix{
                         root.getChildren().add(cell);
                         root.getChildren().add(colonyView); // Colony image on top
                     } else {
-                        if (cellData.hasFood()) {
+                        if (cellData.isFood()) {
                             cell.setFill(Color.web("#51827D")); // food
                         } else if (cellData.isObstacle()) {
                             cell.setFill(Color.web("#A9BCD0")); // rock
@@ -174,5 +195,54 @@ public class Matrix{
         );
 
         timeline.play();
+    }
+    private class Node implements Comparable<Node> {
+        int x, y, cost;
+        Node parent;
+
+        public Node(int x, int y, int cost, Node parent) {
+            this.x = x;
+            this.y = y;
+            this.cost = cost;
+            this.parent = parent;
+        }
+
+        @Override
+        public int compareTo(Node other) {
+            return Integer.compare(this.cost, other.cost);
+        }
+    }
+    private class Cell {
+        private boolean isFood;
+        private boolean isColony;
+        private boolean isObstacle;
+
+        public Cell(boolean food, boolean colony, boolean obstacle){
+            isFood = food;
+            isColony = colony;
+            isObstacle = obstacle;
+        }
+
+        public boolean isFood() {
+            return isFood;
+        }
+
+        public void setFood(boolean food) {
+            this.isFood = food;
+        }
+
+        public boolean isColony() {
+            return isColony;
+        }
+
+        public void setColony(boolean colony) {
+            this.isColony = colony;
+        }
+        public boolean isObstacle(){
+            return isObstacle;
+        }
+        public void setObstacle(boolean obstacle){
+            this.isObstacle = obstacle;
+        }
     }
 }

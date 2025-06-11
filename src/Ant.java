@@ -5,12 +5,13 @@ import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 
 public class Ant{
-    private int posX, posY;
+    private int posX, posY, id;
     private Image ant;
     ImageView antView;
-    public Ant(int posX, int posY){
+    public Ant(int posX, int posY, int id){
         this.posX = posX;
         this.posY = posY;
+        this.id = id;
         init();
     }
     private void init(){
@@ -53,5 +54,8 @@ public class Ant{
     }
     public int getPosY(){
         return posY;
+    }
+    public int getId() {
+    return id;
     }
 }
