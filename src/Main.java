@@ -79,11 +79,6 @@ public class Main extends Application {
             tempX += dirX;
             tempY += dirY;
 
-            if(matrix.isFood(tempX, tempY)){
-                stopAnt(ant.getId());
-                matrix.setFood(tempX, tempY, false);
-            }
-
             if (
                 !matrix.inBounds(tempX, tempY) ||
                 matrix.isObstacle(tempX, tempY) ||
@@ -96,6 +91,33 @@ public class Main extends Application {
 
         if (pathClear) {
             ant.moveTo(tempX, tempY, Duration.millis(300));
+
+            if (matrix.isFood(tempX, tempY)) {
+                stopAnt(ant.getId());
+                matrix.setFood(tempX, tempY, false);
+
+                final int finalX = tempX;
+                final int finalY = tempY;
+               
+                Timeline delayTimeline = new Timeline(new KeyFrame(Duration.millis(300), e -> {
+                    List<int[]> path = matrix.findShortestPath(finalX, finalY, Matrix.COLONY_X, Matrix.COLONY_Y);
+                    Timeline returnTimeline = new Timeline();
+                    int delay = 0;
+                    for (int[] pos : path) {
+                        KeyFrame frame = new KeyFrame(Duration.millis(delay), ev -> {
+                            ant.moveTo(pos[0], pos[1], Duration.millis(200));
+                        });
+                        returnTimeline.getKeyFrames().add(frame);
+                        delay += 250;
+                    }
+                    KeyFrame wandering = new KeyFrame(Duration.millis(delay), eb ->{
+                        resumeAnt(ant.getId());
+                    });
+                    returnTimeline.getKeyFrames().add(wandering);
+                    returnTimeline.play();
+                }));
+                delayTimeline.play();
+            }
         }
     }
     public void stopAnt(int id) {

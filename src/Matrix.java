@@ -1,4 +1,8 @@
 import javafx.util.Duration;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.PriorityQueue;
 import java.util.Random;
 
 import javafx.animation.KeyFrame;
@@ -195,6 +199,41 @@ public class Matrix{
         );
 
         timeline.play();
+    }
+    public List<int[]> findShortestPath(int startX, int startY, int goalX, int goalY) {
+        PriorityQueue<Node> queue = new PriorityQueue<>();
+        boolean[][] visited = new boolean[rows][cols];
+
+        queue.add(new Node(startX, startY, 0, null));
+
+        int[][] directions = {{1,0}, {-1,0}, {0,1}, {0,-1}}; // Right, Left, Down, Up
+
+        while (!queue.isEmpty()) {
+            Node current = queue.poll();
+
+            if (visited[current.y][current.x]) continue;
+            visited[current.y][current.x] = true;
+
+            if (current.x == goalX && current.y == goalY) {
+                List<int[]> path = new ArrayList<>();
+                while (current != null) {
+                    path.add(0, new int[]{current.x, current.y});
+                    current = current.parent;
+                }
+                return path;
+            }
+
+            for (int[] d : directions) {
+                int nx = current.x + d[0];
+                int ny = current.y + d[1];
+
+                if (inBounds(nx, ny) && !visited[ny][nx] && !isObstacle(nx, ny)) {
+                    queue.add(new Node(nx, ny, current.cost + 1, current));
+                }
+            }
+        }
+
+        return null; // No path found
     }
     private class Node implements Comparable<Node> {
         int x, y, cost;
